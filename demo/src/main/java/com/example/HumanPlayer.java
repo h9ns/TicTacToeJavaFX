@@ -8,6 +8,8 @@ import java.util.Scanner;
  * /** A player who chooses moves by entering coordinates in the console. 
  */
 public class HumanPlayer extends Player {
+    private static int playerCount;
+
     private final Scanner scanner;
 
     /**
@@ -21,6 +23,15 @@ public class HumanPlayer extends Player {
     public HumanPlayer(char marker, Scanner scanner) {
         super(marker);
         this.scanner = Objects.requireNonNull(scanner, "scanner");
+        setName(nextDefaultName());
+    }
+
+    private static synchronized String nextDefaultName() {
+        return "Player #" + ++playerCount;
+    }
+
+    static synchronized void resetCounter() {
+        playerCount = 0;
     }
 
     /** Prompts for coordinates until this player's marker is placed successfully. */

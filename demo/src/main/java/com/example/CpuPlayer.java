@@ -10,6 +10,8 @@ import java.util.Random;
  * A player that chooses randomly from the currently available cells. 
  */
 public class CpuPlayer extends Player {
+    private static int playerCount;
+
     private final Random random;
 
     /**
@@ -37,10 +39,18 @@ public class CpuPlayer extends Player {
      */     
     public CpuPlayer(char marker, Random random) {
         super(marker);
-        setName("CPU #1");
         this.random = Objects.requireNonNull(random, "random");
+        setName(nextDefaultName());
     }
-    
+
+    private static synchronized String nextDefaultName() {
+        return "CPU #" + ++playerCount;
+    }
+
+    static synchronized void resetCounter() {
+        playerCount = 0;
+    }
+
 
     /** Places this player's marker in a randomly selected empty cell. */
     @Override

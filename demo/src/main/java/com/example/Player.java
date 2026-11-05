@@ -58,4 +58,12 @@ public abstract class Player {
      * @param board board on which to make the move
      */
     public abstract void makeMove(Board board);
+
+    /**
+     * Resets the default-name counters for human and CPU players.
+     */
+    public static void resetCounters() {
+        HumanPlayer.resetCounter();
+        CpuPlayer.resetCounter();
+    }
 }
