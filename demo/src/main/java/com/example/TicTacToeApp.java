@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /** JavaFX interface for a human-versus-CPU Tic-Tac-Toe game. */
@@ -18,6 +19,10 @@ public class TicTacToeApp extends Application {
     private final CpuPlayer cpu = new CpuPlayer('O');
     private final Button[][] cells = new Button[3][3];
     private final Label status = new Label();
+    private final Label score = new Label();
+    private int xWins;
+    private int oWins;
+    private int draws;
     private Player currentPlayer = human;
 
     @Override
@@ -27,8 +32,11 @@ public class TicTacToeApp extends Application {
 
         status.setAlignment(Pos.CENTER);
         status.setStyle("-fx-font-size: 18px;");
-        root.setTop(status);
-        BorderPane.setMargin(status, new Insets(0, 0, 16, 0));
+        score.setAlignment(Pos.CENTER);
+        VBox header = new VBox(8, status, score);
+        header.setAlignment(Pos.CENTER);
+        root.setTop(header);
+        BorderPane.setMargin(header, new Insets(0, 0, 16, 0));
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -65,6 +73,7 @@ public class TicTacToeApp extends Application {
         currentPlayer = human;
         updateBoard();
         updateStatus();
+        updateScore();
     }
 
     private void playHumanMove(int row, int column) {
@@ -90,11 +99,19 @@ public class TicTacToeApp extends Application {
     private boolean updateGameResult() {
         if (board.checkWin()) {
             status.setText(currentPlayer.getName() + " (" + currentPlayer.getMarker() + ") wins!");
+            if (currentPlayer.getMarker() == 'X') {
+                xWins++;
+            } else {
+                oWins++;
+            }
+            updateScore();
             updateBoard();
             return true;
         }
         if (board.isFull()) {
             status.setText("It's a draw!");
+            draws++;
+            updateScore();
             updateBoard();
             return true;
         }
@@ -115,6 +132,10 @@ public class TicTacToeApp extends Application {
 
     private void updateStatus() {
         status.setText(currentPlayer.getName() + " (" + currentPlayer.getMarker() + ")'s turn");
+    }
+
+    private void updateScore() {
+        score.setText("Wins X: " + xWins + " | Wins O: " + oWins + " | Draws: " + draws);
     }
 
     public static void main(String[] args) {
