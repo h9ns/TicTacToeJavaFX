@@ -6,6 +6,7 @@ package com.example;
  */ 
 public abstract class Player {
     protected final char marker;
+    private String name = "Player #1";
 
     /**
      * Creates a player with the given marker.
@@ -30,9 +31,39 @@ public abstract class Player {
     }
 
     /**
+     * Returns this player's name.
+     *
+     * @return the player's name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets this player's name.
+     *
+     * @param name the player's name
+     * @throws IllegalArgumentException if {@code name} is null or blank
+     */
+    public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("A player name must not be blank");
+        }
+        this.name = name.trim();
+    }
+
+    /**
      * Makes a move on the supplied board.
      *
      * @param board board on which to make the move
      */
     public abstract void makeMove(Board board);
+
+    /**
+     * Resets the default-name counters for human and CPU players.
+     */
+    public static void resetCounters() {
+        HumanPlayer.resetCounter();
+        CpuPlayer.resetCounter();
+    }
 }
