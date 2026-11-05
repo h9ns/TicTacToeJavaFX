@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Scanner;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 class PlayerNameTest {
     private HumanPlayer human() { return new HumanPlayer('X', new Scanner("")); }
